@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mapa Armónico</title>
+
+<style>
+/* =========================================================
+   BASE
+========================================================= */
+
+:root {
+    --bg: #050505;
+    --panel: #0c0c0f;
+    --panel2: #111116;
+    --line: #24242c;
+    --text: #f4f4f7;
+    --muted: #777781;
+
+    --accent: #9b5cff;
+    --accent2: #ff4fd8;
+    --green: #55e6a5;
+    --blue: #52b8ff;
+    --yellow: #ffd166;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background:
+        radial-gradient(circle at 50% -10%, #171020 0%, #050505 45%),
+        #050505;
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+/* =========================================================
+   CONTENEDOR
+========================================================= */
+
+.container {
+    width: min(1100px, calc(100% - 28px));
+    margin: auto;
+    padding: 28px 0 50px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.logo {
+    display: inline-block;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 4px;
+
+    color: #aaa;
+
+    margin-bottom: 9px;
+}
+
+h1 {
+    margin: 0;
+
+    font-size: clamp(30px, 6vw, 54px);
+    line-height: .95;
+
+    letter-spacing: -2px;
+}
+
+.subtitle {
+    margin: 12px auto 0;
+
+    color: var(--muted);
+
+    font-size: 14px;
+    max-width: 600px;
+}
+
+/* =========================================================
+   SELECTOR DE TONICA
+========================================================= */
+
+.note-selector {
+    display: grid;
+
+    grid-template-columns:
+        repeat(12, 1fr);
+
+    gap: 7px;
+
+    margin-bottom: 18px;
+}
+
+.note-button {
+    position: relative;
+
+    border: 1px solid #292930;
+    background:
+        linear-gradient(
+            145deg,
+            #17171c,
+            #0d0d10
+        );
+
+    color: #ddd;
+
+    border-radius: 11px;
+
+    min-height: 52px;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        border .15s ease,
+        box-shadow .15s ease,
+        background .15s ease;
+}
+
+.note-button:hover {
+    transform: translateY(-2px);
+
+    border-color: #555;
+}
+
+.note-button:active {
+    transform: scale(.96);
+}
+
+.note-button.active {
+    color: white;
+
+    border-color: var(--accent);
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            #8e4df8,
+            #3d176e 65%,
+            #150b22
+        );
+
+    box-shadow:
+        0 0 0 1px #9b5cff44,
+        0 0 24px #9b5cff55,
+        inset 0 1px 0 #ffffff44;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    position: relative;
+
+    overflow: hidden;
+
+    border: 1px solid var(--line);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #111116,
+            #08080a
+        );
+
+    padding: 20px;
+
+    margin-bottom: 14px;
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    right: -80px;
+    top: -80px;
+
+    border-radius: 50%;
+
+    background: var(--accent);
+
+    opacity: .08;
+
+    filter: blur(35px);
+}
+
+.selected-note {
+    font-size: 46px;
+
+    font-weight: 900;
+
+    letter-spacing: -3px;
+}
+
+.hero-label {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+}
+
+.accumulated {
+    margin-top: 13px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+}
+
+/* =========================================================
+   MINI NOTAS
+========================================================= */
+
+.pill {
+    border: 1px solid #303038;
+
+    background: #111116;
+
+    border-radius: 7px;
+
+    padding: 5px 8px;
+
+    font-family: monospace;
+
+    font-size: 12px;
+}
+
+.pill.new {
+    border-color: #9b5cff;
+
+    color: #d9c5ff;
+
+    background: #201332;
+}
+
+/* =========================================================
+   MODOS
+========================================================= */
+
+.mode-list {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 9px;
+}
+
+.mode {
+    border: 1px solid var(--line);
+
+    background:
+        linear-gradient(
+            145deg,
+            #0e0e12,
+            #09090b
+        );
+
+    border-radius: 14px;
+
+    padding: 15px;
+
+    transition: border .2s ease;
+}
+
+.mode:hover {
+    border-color: #3c3c46;
+}
+
+.mode-top {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-bottom: 11px;
+}
+
+.mode-name {
+    font-weight: 800;
+
+    font-size: 14px;
+}
+
+.mode-number {
+    color: #555;
+
+    font-size: 11px;
+
+    font-family: monospace;
+}
+
+.notes {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+}
+
+.mode-note {
+    font-family: monospace;
+
+    font-size: 13px;
+
+    padding: 6px 8px;
+
+    border-radius: 7px;
+
+    background: #15151a;
+
+    border: 1px solid #27272e;
+
+    color: #ddd;
+}
+
+.mode-note.fresh {
+    border-color: var(--accent);
+
+    color: #d9c5ff;
+
+    background: #211335;
+
+    box-shadow:
+        inset 0 0 12px #9b5cff0d;
+}
+
+/* =========================================================
+   SECCIONES EXTRA
+========================================================= */
+
+.section-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin: 28px 0 11px;
+}
+
+.section-title h2 {
+    font-size: 15px;
+
+    margin: 0;
+
+    letter-spacing: -.2px;
+}
+
+.section-title span {
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+.resources {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 9px;
+}
+
+.resource {
+    border: 1px solid var(--line);
+
+    background: #0c0c10;
+
+    border-radius: 13px;
+
+    padding: 15px;
+}
+
+.resource h3 {
+    margin: 0 0 7px;
+
+    font-size: 14px;
+}
+
+.resource-description {
+    color: #888;
+
+    font-size: 12px;
+
+    line-height: 1.45;
+
+    margin-bottom: 11px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+    margin-top: 28px;
+
+    text-align: center;
+
+    color: #555;
+
+    font-size: 11px;
+
+    letter-spacing: .5px;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .note-selector {
+        grid-template-columns:
+            repeat(6, 1fr);
+    }
+
+    .mode-list {
+        grid-template-columns: 1fr;
+    }
+
+    .resources {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 430px) {
+
+    .container {
+        width: min(
+            100% - 18px,
+            1100px
+        );
+
+        padding-top: 20px;
+    }
+
+    .note-selector {
+        gap: 5px;
+    }
+
+    .note-button {
+        min-height: 48px;
+
+        border-radius: 9px;
+
+        font-size: 14px;
+    }
+
+    .hero {
+        padding: 17px;
+    }
+
+    .selected-note {
+        font-size: 40px;
+    }
+
+    .mode {
+        padding: 13px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+<header>
+
+    <div class="logo">
+        HARMONIC MAP
+    </div>
+
+    <h1>
+        Mapa Armónico
+    </h1>
+
+    <p class="subtitle">
+        Elegí una tónica y descubrí qué notas aparecen
+        al recorrer modos, pentatónicas y recursos populares.
+    </p>
+
+</header>
+
+
+<!-- =====================================================
+     NOTAS
+===================================================== -->
+
+<div
+    id="noteSelector"
+    class="note-selector">
+</div>
+
+
+<!-- =====================================================
+     RESULTADO
+===================================================== -->
+
+<div id="app"></div>
+
+
+<div class="footer">
+    MODOS · PENTATÓNICAS · BLUES · CROMATISMO
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DATOS
+========================================================= */
+
+const NOTE_NAMES = [
+    "C",
+    "C#",
+    "D",
+    "Eb",
+    "E",
+    "F",
+    "F#",
+    "G",
+    "Ab",
+    "A",
+    "Bb",
+    "B"
+];
+
+
+/*
+   Todas las escalas expresadas como
+   semitonos desde la tónica.
+*/
+
+const MODES = [
+
+    {
+        name: "Jónico",
+        intervals: [0,2,4,5,7,9,11]
+    },
+
+    {
+        name: "Eólico · menor natural",
+        intervals: [0,2,3,5,7,8,10]
+    },
+
+    {
+        name: "Menor armónico",
+        intervals: [0,2,3,5,7,8,11]
+    },
+
+    {
+        name: "Menor melódico",
+        intervals: [0,2,3,5,7,9,11]
+    },
+
+    {
+        name: "Dórico",
+        intervals: [0,2,3,5,7,9,10]
+    },
+
+    {
+        name: "Frigio",
+        intervals: [0,1,3,5,7,8,10]
+    },
+
+    {
+        name: "Lidio",
+        intervals: [0,2,4,6,7,9,11]
+    },
+
+    {
+        name: "Mixolidio",
+        intervals: [0,2,4,5,7,9,10]
+    },
+
+    {
+        name: "Locrio",
+        intervals: [0,1,3,5,6,8,10]
+    }
+
+];
+
+
+/*
+   Recursos populares.
+
+   Importante:
+   no los tratamos como "modos".
+   Son vocabularios melódicos.
+*/
+
+const RESOURCES = [
+
+    {
+        name: "Pentatónica mayor",
+
+        intervals: [
+            0,2,4,7,9
+        ],
+
+        description:
+        "Cinco notas del campo mayor. Fundamental en rock, pop, country y blues."
+    },
+
+    {
+        name: "Pentatónica menor",
+
+        intervals: [
+            0,3,5,7,10
+        ],
+
+        description:
+        "Una de las herramientas más usadas para solos de rock y blues."
+    },
+
+    {
+        name: "Escala blues",
+
+        intervals: [
+            0,3,5,6,7,10
+        ],
+
+        description:
+        "Pentatónica menor + ♭5. La blue note agrega tensión y carácter."
+    },
+
+    {
+        name: "Cromática",
+
+        intervals: [
+            0,1,2,3,4,5,6,7,8,9,10,11
+        ],
+
+        description:
+        "Las 12 notas. Ideal para aproximaciones, passing notes y tensión."
+    }
+
+];
+
+
+/* =========================================================
+   FUNCIONES
+========================================================= */
+
+
+/*
+   Convierte una tónica + intervalos
+   en nombres de notas.
+*/
+
+function getNotes(rootIndex, intervals) {
+
+    return intervals.map(interval => {
+
+        return NOTE_NAMES[
+            (rootIndex + interval) % 12
+        ];
+
+    });
+
+}
+
+
+/*
+   Crea los botones de las 12 notas.
+*/
+
+function createNoteButtons() {
+
+    const selector =
+        document.getElementById(
+            "noteSelector"
+        );
+
+    NOTE_NAMES.forEach(
+        (note, index) => {
+
+            const button =
+                document.createElement("button");
+
+            button.className =
+                "note-button";
+
+            button.textContent =
+                note;
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .querySelectorAll(
+                            ".note-button"
+                        )
+                        .forEach(
+                            b =>
+                            b.classList.remove(
+                                "active"
+                            )
+                        );
+
+                    button.classList.add(
+                        "active"
+                    );
+
+                    render(index);
+                }
+            );
+
+            selector.appendChild(button);
+
+        }
+    );
+}
+
+
+/* =========================================================
+   RENDER PRINCIPAL
+========================================================= */
+
+function render(rootIndex) {
+
+    const root =
+        NOTE_NAMES[rootIndex];
+
+    const app =
+        document.getElementById(
+            "app"
+        );
+
+
+    /*
+       Aquí guardamos las notas
+       que ya aparecieron.
+    */
+
+    const accumulated =
+        new Set();
+
+
+    let modesHTML = "";
+
+
+    MODES.forEach(
+        (mode, index) => {
+
+            const notes =
+                getNotes(
+                    rootIndex,
+                    mode.intervals
+                );
+
+
+            /*
+               Detectamos cuáles son nuevas.
+            */
+
+            const fresh =
+                notes.filter(
+                    note => {
+
+                        const pc =
+                            NOTE_NAMES.indexOf(
+                                note
+                            );
+
+                        return !accumulated.has(
+                            pc
+                        );
+                    }
+                );
+
+
+            /*
+               Después de detectar las nuevas,
+               las agregamos al acumulado.
+            */
+
+            notes.forEach(
+                note => {
+
+                    accumulated.add(
+                        NOTE_NAMES.indexOf(
+                            note
+                        )
+                    );
+
+                }
+            );
+
+
+            const notesHTML =
+                notes.map(
+                    note => {
+
+                        const isFresh =
+                            fresh.includes(
+                                note
+                            );
+
+                        return `
+                        <span class="
+                            mode-note
+                            ${isFresh ? "fresh" : ""}
+                        ">
+                            ${note}
+                        </span>
+                        `;
+                    }
+                ).join("");
+
+
+            modesHTML += `
+
+            <div class="mode">
+
+                <div class="mode-top">
+
+                    <div class="mode-name">
+                        ${mode.name}
+                    </div>
+
+                    <div class="mode-number">
+                        ${String(index + 1).padStart(2,"0")}
+                    </div>
+
+                </div>
+
+                <div class="notes">
+
+                    ${notesHTML}
+
+                </div>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+
+    /*
+       Ordenamos las 12 notas cromáticamente
+       desde la tónica.
+    */
+
+    const accumulatedNotes =
+        [...accumulated]
+        .sort(
+            (a,b) => a-b
+        );
+
+
+    const accumulatedHTML =
+        accumulatedNotes
+        .map(
+            pc => {
+
+                return `
+                <span class="pill">
+                    ${NOTE_NAMES[pc]}
+                </span>
+                `;
+
+            }
+        ).join("");
+
+
+    /*
+       Recursos populares.
+    */
+
+    let resourcesHTML = "";
+
+
+    RESOURCES.forEach(
+        resource => {
+
+            const notes =
+                getNotes(
+                    rootIndex,
+                    resource.intervals
+                );
+
+
+            const notesHTML =
+                notes.map(
+                    note => {
+
+                        return `
+                        <span class="pill">
+                            ${note}
+                        </span>
+                        `;
+
+                    }
+                ).join("");
+
+
+            resourcesHTML += `
+
+            <div class="resource">
+
+                <h3>
+                    ${resource.name}
+                </h3>
+
+                <div class="resource-description">
+                    ${resource.description}
+                </div>
+
+                <div class="accumulated">
+
+                    ${notesHTML}
+
+                </div>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+
+    /*
+       HTML final.
+    */
+
+    app.innerHTML = `
+
+        <div class="hero">
+
+            <div class="hero-label">
+                TÓNICA SELECCIONADA
+            </div>
+
+            <div class="selected-note">
+                ${root}
+            </div>
+
+            <div class="hero-label">
+                NOTAS DESCUBIERTAS
+            </div>
+
+            <div class="accumulated">
+
+                ${accumulatedHTML}
+
+            </div>
+
+        </div>
+
+
+        <div class="section-title">
+
+            <h2>
+                Modos
+            </h2>
+
+            <span>
+                se agregan solamente las notas nuevas
+            </span>
+
+        </div>
+
+
+        <div class="mode-list">
+
+            ${modesHTML}
+
+        </div>
+
+
+        <div class="section-title">
+
+            <h2>
+                Recursos populares
+            </h2>
+
+            <span>
+                vocabulario melódico
+            </span>
+
+        </div>
+
+
+        <div class="resources">
+
+            ${resourcesHTML}
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================================
+   INICIAR
+========================================================= */
+
+createNoteButtons();
+
+/*
+   Arrancamos en C.
+*/
+
+document
+    .querySelector(".note-button")
+    .click();
+
+</script>
+
+</body>
+</html>
