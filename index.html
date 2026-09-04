@@ -7,10 +7,6 @@
 <title>Mapa Armónico</title>
 
 <style>
-/* =========================================================
-   BASE
-========================================================= */
-
 :root {
     --bg: #050505;
     --panel: #0c0c0f;
@@ -52,19 +48,11 @@ body {
         sans-serif;
 }
 
-/* =========================================================
-   CONTENEDOR
-========================================================= */
-
 .container {
     width: min(1100px, calc(100% - 28px));
     margin: auto;
     padding: 28px 0 50px;
 }
-
-/* =========================================================
-   HEADER
-========================================================= */
 
 header {
     text-align: center;
@@ -98,21 +86,17 @@ h1 {
     color: var(--muted);
 
     font-size: 14px;
-    max-width: 600px;
+    max-width: 650px;
 }
 
 /* =========================================================
-   SELECTOR DE TONICA
+   SELECTOR
 ========================================================= */
 
 .note-selector {
     display: grid;
-
-    grid-template-columns:
-        repeat(12, 1fr);
-
+    grid-template-columns: repeat(12, 1fr);
     gap: 7px;
-
     margin-bottom: 18px;
 }
 
@@ -120,6 +104,7 @@ h1 {
     position: relative;
 
     border: 1px solid #292930;
+
     background:
         linear-gradient(
             145deg,
@@ -147,7 +132,6 @@ h1 {
 
 .note-button:hover {
     transform: translateY(-2px);
-
     border-color: #555;
 }
 
@@ -247,10 +231,6 @@ h1 {
     gap: 5px;
 }
 
-/* =========================================================
-   MINI NOTAS
-========================================================= */
-
 .pill {
     border: 1px solid #303038;
 
@@ -271,6 +251,34 @@ h1 {
     color: #d9c5ff;
 
     background: #201332;
+}
+
+/* =========================================================
+   SECCIONES
+========================================================= */
+
+.section-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin: 28px 0 11px;
+}
+
+.section-title h2 {
+    font-size: 15px;
+
+    margin: 0;
+
+    letter-spacing: -.2px;
+}
+
+.section-title span {
+    color: var(--muted);
+
+    font-size: 11px;
 }
 
 /* =========================================================
@@ -300,11 +308,14 @@ h1 {
 
     padding: 15px;
 
-    transition: border .2s ease;
+    transition:
+        border .2s ease,
+        transform .2s ease;
 }
 
 .mode:hover {
     border-color: #3c3c46;
+    transform: translateY(-1px);
 }
 
 .mode-top {
@@ -369,32 +380,118 @@ h1 {
 }
 
 /* =========================================================
-   SECCIONES EXTRA
+   ARMONÍA
 ========================================================= */
 
-.section-title {
+.harmony {
+    margin-top: 14px;
+
+    padding-top: 12px;
+
+    border-top: 1px solid #202027;
+}
+
+.harmony-label {
+    color: #666;
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.7px;
+
+    margin-bottom: 8px;
+}
+
+.chords {
     display: flex;
 
-    align-items: center;
+    flex-wrap: wrap;
 
-    gap: 10px;
-
-    margin: 28px 0 11px;
+    gap: 6px;
 }
 
-.section-title h2 {
-    font-size: 15px;
+.chord {
+    min-width: 64px;
 
-    margin: 0;
+    padding: 8px 7px;
 
-    letter-spacing: -.2px;
+    border-radius: 9px;
+
+    text-align: center;
+
+    border: 1px solid #292930;
+
+    background: #111116;
 }
 
-.section-title span {
-    color: var(--muted);
+.chord-degree {
+    display: block;
 
-    font-size: 11px;
+    font-family: monospace;
+
+    font-size: 10px;
+
+    color: #666;
+
+    margin-bottom: 3px;
 }
+
+.chord-name {
+    display: block;
+
+    font-size: 14px;
+
+    font-weight: 900;
+}
+
+.chord-quality {
+    display: block;
+
+    font-size: 9px;
+
+    margin-top: 3px;
+
+    color: #777;
+}
+
+/* Colores de cualidad */
+
+.chord.major {
+    border-color: #245d49;
+}
+
+.chord.major .chord-quality {
+    color: var(--green);
+}
+
+.chord.minor {
+    border-color: #293f63;
+}
+
+.chord.minor .chord-quality {
+    color: var(--blue);
+}
+
+.chord.diminished {
+    border-color: #654e20;
+}
+
+.chord.diminished .chord-quality {
+    color: var(--yellow);
+}
+
+.chord.augmented {
+    border-color: #67304f;
+}
+
+.chord.augmented .chord-quality {
+    color: var(--accent2);
+}
+
+/* =========================================================
+   RECURSOS
+========================================================= */
 
 .resources {
     display: grid;
@@ -429,6 +526,62 @@ h1 {
     line-height: 1.45;
 
     margin-bottom: 11px;
+}
+
+/* =========================================================
+   LEYENDA
+========================================================= */
+
+.legend {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 12px;
+}
+
+.legend-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 6px 8px;
+
+    border-radius: 7px;
+
+    background: #0d0d11;
+
+    border: 1px solid #222228;
+
+    color: #777;
+
+    font-size: 10px;
+}
+
+.legend-symbol {
+    font-weight: 900;
+
+    font-family: monospace;
+}
+
+.legend-major .legend-symbol {
+    color: var(--green);
+}
+
+.legend-minor .legend-symbol {
+    color: var(--blue);
+}
+
+.legend-dim .legend-symbol {
+    color: var(--yellow);
+}
+
+.legend-aug .legend-symbol {
+    color: var(--accent2);
 }
 
 /* =========================================================
@@ -501,6 +654,15 @@ h1 {
     .mode {
         padding: 13px;
     }
+
+    .chord {
+        min-width: 58px;
+        padding: 7px 5px;
+    }
+
+    .chord-name {
+        font-size: 13px;
+    }
 }
 </style>
 </head>
@@ -521,16 +683,14 @@ h1 {
     </h1>
 
     <p class="subtitle">
-        Elegí una tónica y descubrí qué notas aparecen
-        al recorrer modos, pentatónicas y recursos populares.
+        Elegí una tónica y descubrí las notas, los grados
+        y la armonía completa de cada modo.
     </p>
 
 </header>
 
 
-<!-- =====================================================
-     NOTAS
-===================================================== -->
+<!-- NOTAS -->
 
 <div
     id="noteSelector"
@@ -538,15 +698,13 @@ h1 {
 </div>
 
 
-<!-- =====================================================
-     RESULTADO
-===================================================== -->
+<!-- APP -->
 
 <div id="app"></div>
 
 
 <div class="footer">
-    MODOS · PENTATÓNICAS · BLUES · CROMATISMO
+    MODOS · ACORDES · PENTATÓNICAS · BLUES · CROMATISMO
 </div>
 
 </div>
@@ -555,7 +713,7 @@ h1 {
 <script>
 
 /* =========================================================
-   DATOS
+   NOTAS
 ========================================================= */
 
 const NOTE_NAMES = [
@@ -574,10 +732,9 @@ const NOTE_NAMES = [
 ];
 
 
-/*
-   Todas las escalas expresadas como
-   semitonos desde la tónica.
-*/
+/* =========================================================
+   MODOS
+========================================================= */
 
 const MODES = [
 
@@ -629,13 +786,9 @@ const MODES = [
 ];
 
 
-/*
-   Recursos populares.
-
-   Importante:
-   no los tratamos como "modos".
-   Son vocabularios melódicos.
-*/
+/* =========================================================
+   RECURSOS
+========================================================= */
 
 const RESOURCES = [
 
@@ -687,14 +840,23 @@ const RESOURCES = [
 
 
 /* =========================================================
-   FUNCIONES
+   GRADOS ROMANOS
 ========================================================= */
 
+const ROMAN = [
+    "I",
+    "II",
+    "III",
+    "IV",
+    "V",
+    "VI",
+    "VII"
+];
 
-/*
-   Convierte una tónica + intervalos
-   en nombres de notas.
-*/
+
+/* =========================================================
+   OBTENER NOTAS
+========================================================= */
 
 function getNotes(rootIndex, intervals) {
 
@@ -709,9 +871,162 @@ function getNotes(rootIndex, intervals) {
 }
 
 
-/*
-   Crea los botones de las 12 notas.
-*/
+/* =========================================================
+   ANALIZAR TRIADA
+=========================================================
+
+   Una tríada se determina mirando:
+
+   MAYOR
+   4 semitonos + 3 semitonos
+
+   MENOR
+   3 semitonos + 4 semitonos
+
+   DISMINUIDA
+   3 semitonos + 3 semitonos
+
+   AUMENTADA
+   4 semitonos + 4 semitonos
+
+========================================================= */
+
+function getChordQuality(third, fifth) {
+
+    if (
+        third === 4 &&
+        fifth === 7
+    ) {
+        return {
+            symbol: "",
+            name: "Mayor",
+            class: "major"
+        };
+    }
+
+    if (
+        third === 3 &&
+        fifth === 7
+    ) {
+        return {
+            symbol: "m",
+            name: "Menor",
+            class: "minor"
+        };
+    }
+
+    if (
+        third === 3 &&
+        fifth === 6
+    ) {
+        return {
+            symbol: "dim",
+            name: "Disminuido",
+            class: "diminished"
+        };
+    }
+
+    if (
+        third === 4 &&
+        fifth === 8
+    ) {
+        return {
+            symbol: "+",
+            name: "Aumentado",
+            class: "augmented"
+        };
+    }
+
+    return {
+        symbol: "?",
+        name: "Especial",
+        class: ""
+    };
+}
+
+
+/* =========================================================
+   CREAR ARMONÍA DEL MODO
+========================================================= */
+
+function getHarmony(rootIndex, intervals) {
+
+    const chords = [];
+
+    for (let i = 0; i < 7; i++) {
+
+        const rootInterval =
+            intervals[i];
+
+        const thirdInterval =
+            intervals[(i + 2) % 7];
+
+        const fifthInterval =
+            intervals[(i + 4) % 7];
+
+
+        /*
+           Si damos la vuelta dentro de la escala,
+           sumamos una octava.
+        */
+
+        let third =
+            thirdInterval - rootInterval;
+
+        let fifth =
+            fifthInterval - rootInterval;
+
+
+        if (third <= 0) {
+            third += 12;
+        }
+
+        if (fifth <= 0) {
+            fifth += 12;
+        }
+
+
+        /*
+           Para la tríada necesitamos
+           distancia cromática real.
+        */
+
+        const quality =
+            getChordQuality(
+                third,
+                fifth
+            );
+
+
+        const chordRoot =
+            NOTE_NAMES[
+                (rootIndex + rootInterval) % 12
+            ];
+
+
+        chords.push({
+
+            degree: ROMAN[i],
+
+            root: chordRoot,
+
+            symbol: quality.symbol,
+
+            quality: quality.name,
+
+            class: quality.class
+
+        });
+
+    }
+
+    return chords;
+}
+
+
+/* =========================================================
+   BOTONES DE TÓNICA
+========================================================= */
 
 function createNoteButtons() {
 
@@ -763,7 +1078,7 @@ function createNoteButtons() {
 
 
 /* =========================================================
-   RENDER PRINCIPAL
+   RENDER
 ========================================================= */
 
 function render(rootIndex) {
@@ -776,11 +1091,6 @@ function render(rootIndex) {
             "app"
         );
 
-
-    /*
-       Aquí guardamos las notas
-       que ya aparecieron.
-    */
 
     const accumulated =
         new Set();
@@ -800,7 +1110,7 @@ function render(rootIndex) {
 
 
             /*
-               Detectamos cuáles son nuevas.
+               Detectamos notas nuevas.
             */
 
             const fresh =
@@ -819,11 +1129,6 @@ function render(rootIndex) {
                 );
 
 
-            /*
-               Después de detectar las nuevas,
-               las agregamos al acumulado.
-            */
-
             notes.forEach(
                 note => {
 
@@ -836,6 +1141,8 @@ function render(rootIndex) {
                 }
             );
 
+
+            /* NOTAS */
 
             const notesHTML =
                 notes.map(
@@ -858,6 +1165,44 @@ function render(rootIndex) {
                 ).join("");
 
 
+            /* ARMONÍA */
+
+            const harmony =
+                getHarmony(
+                    rootIndex,
+                    mode.intervals
+                );
+
+
+            const chordsHTML =
+                harmony.map(
+                    chord => {
+
+                        return `
+                        <div class="
+                            chord
+                            ${chord.class}
+                        ">
+
+                            <span class="chord-degree">
+                                ${chord.degree}
+                            </span>
+
+                            <span class="chord-name">
+                                ${chord.root}${chord.symbol}
+                            </span>
+
+                            <span class="chord-quality">
+                                ${chord.quality}
+                            </span>
+
+                        </div>
+                        `;
+
+                    }
+                ).join("");
+
+
             modesHTML += `
 
             <div class="mode">
@@ -874,9 +1219,29 @@ function render(rootIndex) {
 
                 </div>
 
+
+                <!-- NOTAS -->
+
                 <div class="notes">
 
                     ${notesHTML}
+
+                </div>
+
+
+                <!-- ACORDES -->
+
+                <div class="harmony">
+
+                    <div class="harmony-label">
+                        Armonía · tríadas diatónicas
+                    </div>
+
+                    <div class="chords">
+
+                        ${chordsHTML}
+
+                    </div>
 
                 </div>
 
@@ -888,10 +1253,9 @@ function render(rootIndex) {
     );
 
 
-    /*
-       Ordenamos las 12 notas cromáticamente
-       desde la tónica.
-    */
+    /* =====================================================
+       NOTAS ACUMULADAS
+    ===================================================== */
 
     const accumulatedNotes =
         [...accumulated]
@@ -915,9 +1279,9 @@ function render(rootIndex) {
         ).join("");
 
 
-    /*
-       Recursos populares.
-    */
+    /* =====================================================
+       RECURSOS
+    ===================================================== */
 
     let resourcesHTML = "";
 
@@ -972,9 +1336,9 @@ function render(rootIndex) {
     );
 
 
-    /*
-       HTML final.
-    */
+    /* =====================================================
+       HTML FINAL
+    ===================================================== */
 
     app.innerHTML = `
 
@@ -1008,7 +1372,7 @@ function render(rootIndex) {
             </h2>
 
             <span>
-                se agregan solamente las notas nuevas
+                notas + acordes de cada grado
             </span>
 
         </div>
@@ -1017,6 +1381,41 @@ function render(rootIndex) {
         <div class="mode-list">
 
             ${modesHTML}
+
+        </div>
+
+
+        <!-- LEYENDA -->
+
+        <div class="legend">
+
+            <div class="legend-item legend-major">
+                <span class="legend-symbol">
+                    C
+                </span>
+                Mayor
+            </div>
+
+            <div class="legend-item legend-minor">
+                <span class="legend-symbol">
+                    Cm
+                </span>
+                Menor
+            </div>
+
+            <div class="legend-item legend-dim">
+                <span class="legend-symbol">
+                    Cdim
+                </span>
+                Disminuido
+            </div>
+
+            <div class="legend-item legend-aug">
+                <span class="legend-symbol">
+                    C+
+                </span>
+                Aumentado
+            </div>
 
         </div>
 
